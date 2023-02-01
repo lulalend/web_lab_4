@@ -23,7 +23,7 @@ public class RegisterService {
     }
 
     public void register(UserDTO user) {
-        if( manager.userExists(user.getUsername()) ) {
+        if ( manager.userExists(user.getUsername()) ) {
             throw new UserAlreadyExistsException("Пользователь с таким " +
                     " именем уже существует(");
         }
@@ -34,4 +34,5 @@ public class RegisterService {
                         .roles(USER_ROLE)
                         .build());
     }
+
 }

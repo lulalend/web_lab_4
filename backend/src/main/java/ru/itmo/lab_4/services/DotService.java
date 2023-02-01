@@ -1,11 +1,12 @@
 package ru.itmo.lab_4.services;
 
 import ru.itmo.lab_4.entities.Dot;
+import ru.itmo.lab_4.entities.User;
 
 import java.util.List;
 
 public interface DotService {
-    Dot enrichDot(Dot dot);
+    Dot enrichDot(Dot dot, String username);
 
     List<Dot> getAllDotsByUsername(String username);
 

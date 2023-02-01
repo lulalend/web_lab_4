@@ -4,8 +4,9 @@ import org.springframework.stereotype.Component;
 import ru.itmo.lab_4.entities.Dot;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-//ПЕРЕДЕЛАТЬ ИСХОДЯ ИЗ КАРТИНКИ ПО ВАРИАНТУ
+// TODO ПЕРЕДЕЛАТЬ ИСХОДЯ ИЗ КАРТИНКИ ПО ВАРИАНТУ
 @Component
 public class HitChecker {
     private static final BigDecimal ZERO = new BigDecimal("0");
@@ -17,18 +18,18 @@ public class HitChecker {
                 x = dot.getX(),
                 y = dot.getY();
 
-        //noinspection BigDecimalMethodWithoutRoundingCalled
-        BigDecimal semiR = r.divide(TWO);
 
-        boolean firstQuarterTriangle = ( x.compareTo(ZERO) >= 0 && y.compareTo(ZERO) >= 0 &&
-                (y.add(x.multiply(TWO)).compareTo(r) <= 0) );
+        BigDecimal semiR = r.divide(TWO, RoundingMode.CEILING);
 
-        boolean secondQuarterCircle = ( x.compareTo(ZERO) <= 0 && y.compareTo(ZERO) >= 0 &&
-                ((x.multiply(x)).add(y.multiply(y)).compareTo(semiR.multiply(semiR)) <= 0) );
+        boolean secondQuarterRectangle = ( x.compareTo(ZERO) <= 0 && x.compareTo(semiR.negate()) >= 0 &&
+                y.compareTo(ZERO) >= 0 && y.compareTo(r) <= 0 );
 
-        boolean thirdQuarterRectangle = ( x.compareTo(ZERO) >= 0 && x.compareTo(r) <= 0 &&
-                y.compareTo(ZERO) <= 0 && y.compareTo(semiR.negate()) >= 0 );
+        boolean thirdQuarterCircle = ( x.compareTo(ZERO) <= 0 && y.compareTo(ZERO) <= 0 &&
+                ((x.multiply(x)).add(y.multiply(y)).compareTo(r.multiply(r)) <= 0) );
 
-        return firstQuarterTriangle || secondQuarterCircle || thirdQuarterRectangle;
+        boolean forthQuarterTriangle = ( x.compareTo(ZERO) >= 0 && y.compareTo(ZERO) <= 0 &&
+                (y.subtract(x).compareTo(r.negate()) >= 0) );
+
+        return secondQuarterRectangle || thirdQuarterCircle || forthQuarterTriangle;
     }
 }
