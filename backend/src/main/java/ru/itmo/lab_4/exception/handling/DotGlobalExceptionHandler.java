@@ -18,4 +18,13 @@ public class DotGlobalExceptionHandler {
 
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<DotIncorrectData> handleException(
+            Exception exception) {
+        DotIncorrectData data = new DotIncorrectData();
+        data.setInfo(exception.getMessage());
+
+        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+    }
 }
